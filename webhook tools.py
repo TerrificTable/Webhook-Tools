@@ -24,19 +24,29 @@ def spammer():
             try:
                 response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
             except Exception as e:
-                print(e); exit()
+                print(e + ", press [ENTER] to exit")
+                while True:
+                    input()
+                    exit()
 
             if response.status_code == 204 or response.status_code == 200:
-                print(f" {out} - Message sent")
+                print(f" {out} - Message sent, press [ENTER] to exit")
+                while True:
+                    input()
+                    exit()
             elif response.status_code == 429:
                 print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
                 time.sleep(response.json()["retry_after"] / 1000)
             else:
-                print(f" {err} - Error code: {response.status_code}")
+                print(f" {err} - Error code: {response.status_code}, press [ENTER] to exit")
+                while True:
+                    input()
+                    exit()
             time.sleep(.5)
-            screen()
-        screen()
-    screen()
+    print(f" {err} - Invalid input, press [ENTER] to exit")
+    while True:
+        input()
+        exit()
 
 def deleter():
     os.system('cls; clear')
@@ -46,15 +56,24 @@ def deleter():
     if webhook != "":
         try:
             requests.delete(webhook.rstrip())
-            print(f' {out} - Webhook has been deleted')
+            print(f' {out} - Webhook has been deleted, press [ENTER] to exit')
+            while True:
+                input()
+                exit()
         except Exception as e:
-            print(f" {err} - Webhook could not be deleted")
+            print(f" {err} - Webhook could not be deleted, press [ENTER] to exit")
+            while True:
+                input()
+                exit()
     else:
-        print(f" {err} - Invalid Input")
-        screen()
-    screen()
+        print(f" {err} - Invalid Input, press [ENTER] to exit")
+        while True:
+            input()
+            exit()
+
 
 banner = f'''{colorama.Fore.RED}
+
     █     █░▓█████  ▄▄▄▄    ██░ ██  ▒█████   ▒█████   ██ ▄█▀   ▄▄▄█████▓ ▒█████   ▒█████   ██▓      ██████ 
     ▓█░ █ ░█░▓█   ▀ ▓█████▄ ▓██░ ██▒▒██▒  ██▒▒██▒  ██▒ ██▄█▒    ▓  ██▒ ▓▒▒██▒  ██▒▒██▒  ██▒▓██▒    ▒██    ▒ 
     ▒█░ █ ░█ ▒███   ▒██▒ ▄██▒██▀▀██░▒██░  ██▒▒██░  ██▒▓███▄░    ▒ ▓██░ ▒░▒██░  ██▒▒██░  ██▒▒██░    ░ ▓██▄   
@@ -70,14 +89,15 @@ def screen():
     global i
 
     os.system('cls; clear')
+    os.system(f'mode 110, 25')
     os.system("title [Terrific's Webhook-Tools]")
     print(banner)
     print(f'''
-    [x]==============[x]
-     ║ 1  =  Spammer  ║
-     ║ 2  =  Deleter  ║
-     ║ X  =  Exit     ║
-    [x]==============[x]''')
+        [x]==============[x]
+         ║ 1  =  Spammer  ║
+         ║ 2  =  Deleter  ║
+         ║ X  =  Exit     ║
+        [x]==============[x]''')
     i = input(f" {inp} ")
 
 screen()
@@ -89,4 +109,5 @@ elif str(i).lower() == "x":
     exit()
 else:
     print(f" {err} - Invalid Input")
+    input()
     exit()
