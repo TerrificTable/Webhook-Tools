@@ -1,5 +1,3 @@
-from abc import abstractmethod
-from colored import fg
 import colorama
 import requests
 import time
@@ -22,31 +20,26 @@ def sender():
     if webhook != "" or message != "" or str(amt) != "":
         for i in range(int(amt)):
             try:
-                response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
+                for i in range(int(amt)):
+                    response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
             except Exception as e:
                 print(e + ", press [ENTER] to exit")
-                while True:
-                    input()
-                    exit()
+                input()
+                exit()
 
             if response.status_code == 204 or response.status_code == 200:
-                print(f" {out} - Message sent, press [ENTER] to exit")
-                while True:
-                    input()
-                    exit()
+                print(f" {out} - Message sent")
             elif response.status_code == 429:
                 print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
                 time.sleep(response.json()["retry_after"] / 1000)
             else:
                 print(f" {err} - Error code: {response.status_code}, press [ENTER] to exit")
-                while True:
-                    input()
-                    exit()
+                input()
+                exit()
             time.sleep(.5)
     print(f" {err} - Invalid input, press [ENTER] to exit")
-    while True:
-        input()
-        exit()
+    input()
+    exit()
 
 def spammer():
     os.system('cls; clear')
@@ -55,29 +48,29 @@ def spammer():
     webhook = input(f" {inp} Webhook Url: ")
     message = input(f" {inp} Message: ")
     print("")
-
-    while True:
-        try:
-            response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
-        except Exception as e:
-            print(e + ", press [ENTER] to exit")
-            while True:
+    try:
+        while True:
+            try:
+                response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
+            except Exception as e:
+                print(e + ", press [ENTER] to exit")
                 input()
                 exit()
 
-        if response.status_code == 204 or response.status_code == 200:
-            print(f" {out} - Message sent")
+            if response.status_code == 204 or response.status_code == 200:
+                print(f" {out} - Message sent")
 
-        elif response.status_code == 429:
-            print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
-            time.sleep(response.json()["retry_after"] / 1000)
+            elif response.status_code == 429:
+                print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
+                time.sleep(response.json()["retry_after"] / 1000)
 
-        else:
-            print(f" {err} - Error code: {response.status_code}, press [ENTER] to exit")
-            while True:
+            else:
+                print(f" {err} - Error code: {response.status_code}, press [ENTER] to exit")
                 input()
                 exit()
-        time.sleep(.5)
+            time.sleep(.5)
+    except:
+        print(f" {log} Press [ENTER] to exit")
 
 def deleter():
     os.system('cls; clear')
@@ -88,19 +81,16 @@ def deleter():
         try:
             requests.delete(webhook.rstrip())
             print(f' {out} - Webhook has been deleted, press [ENTER] to exit')
-            while True:
-                input()
-                exit()
-        except Exception as e:
-            print(f" {err} - Webhook could not be deleted, press [ENTER] to exit")
-            while True:
-                input()
-                exit()
-    else:
-        print(f" {err} - Invalid Input, press [ENTER] to exit")
-        while True:
             input()
             exit()
+        except Exception as e:
+            print(f" {err} - Webhook could not be deleted, press [ENTER] to exit")
+            input()
+            exit()
+    else:
+        print(f" {err} - Invalid Input, press [ENTER] to exit")
+        input()
+        exit()
 
 
 banner = f'''{colorama.Fore.RED}
