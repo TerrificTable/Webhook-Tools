@@ -3,6 +3,8 @@ import requests
 import time
 import os
 
+from requests.api import request
+
 inp = f"[{colorama.Fore.MAGENTA}>{colorama.Style.RESET_ALL}] $ "
 err = f"[{colorama.Fore.RED}-{colorama.Style.RESET_ALL}]"
 out = f"[{colorama.Fore.GREEN}:{colorama.Style.RESET_ALL}]"
@@ -13,13 +15,13 @@ def sender():
     os.system("title [Terrific's Webhook-Tools - Spammer]")
     print(f'{log} [WEBHOOK-TOOLS] - Webhook spammer\n')
     webhook = input(f" {inp} Webhook Url: ")
-    cu = input(f" {inp} Do you want to put a Custom Webhook name inside (it changes the name of the Webhook if it sends a message) [y/n]: ")
+    cu = input(f"\n {inp} Do you want to put a Custom Webhook name inside (it changes the name of the Webhook if it sends a message) [y/n]: ")
     if str(cu) == "y":
-        username = input("Username: ")
-    av  = input(f" {inp} Do you want the Webhook to have a Custom avatar [y/n]: ")
+        username = input(f" {inp} Username: ")
+    av  = input(f"\n {inp} Do you want the Webhook to have a Custom avatar [y/n]: ")
     if str(av) == "y":
-        avatarurl = input("Avatar-Url (A Image URL): ")
-    message = input(f" {inp} Message: ")
+        avatarurl = input(f" {inp} Avatar-Url (A Image URL): ")
+    message = input(f"\n {inp} Message: ")
     amt = input(f" {inp} Amout of Messages send: ")
     print("")
 
@@ -104,6 +106,17 @@ def deleter():
         input()
         exit()
 
+def checker():
+    os.system("cls; clear")
+    os.system("title [Terrific's Webhook-Tools - Checker]")
+    print(f"{log} [WEBHOOK-TOOLS] - Webhook checker\n")
+    webhook = input(f" {inp} Webhook: ")
+    if webhook != "":
+        r = requests.get(webhook)
+        if r.ok == False:
+            print(f"{log} [WEBHOOK-TOOLS] - Webhook Invalid")
+        elif r.ok == True:
+            print(f"{log} [WEBHOOK-TOOLS] - Webhook Works")
 
 banner = f'''{colorama.Fore.RED}
 
@@ -130,6 +143,7 @@ def screen():
          ║ 1  =  Sender   ║
          ║ 2  =  Spammer  ║
          ║ 3  =  Deleter  ║
+         ║ 4  =  Checker  ║
          ║ X  =  Exit     ║
         [x]==============[x]''')
     i = input(f" {inp} ")
@@ -141,6 +155,8 @@ elif str(i) == str(2):
     spammer()
 elif str(i) == str(3):
     deleter()
+elif str(i) == str(4):
+    checker()
 elif str(i).lower() == "x":
     exit()
 else:
