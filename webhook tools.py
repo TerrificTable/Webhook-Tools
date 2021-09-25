@@ -112,11 +112,14 @@ def checker():
     print(f"{log} [WEBHOOK-TOOLS] - Webhook checker\n")
     webhook = input(f" {inp} Webhook: ")
     if webhook != "":
-        r = requests.get(webhook)
-        if r.ok == False:
-            print(f"{log} [WEBHOOK-TOOLS] - Webhook Invalid")
-        elif r.ok == True:
-            print(f"{log} [WEBHOOK-TOOLS] - Webhook Works")
+        try:
+            r = requests.get(webhook)
+            if r.ok == False:
+                print(f"{log} [WEBHOOK-TOOLS] - Webhook Invalid")
+            elif r.ok == True:
+                print(f"{log} [WEBHOOK-TOOLS] - Webhook Works")
+        except Exception as e:
+            print(f"{err} [WEBHOOK-TOOLS] - Webhook could not be checked\n{err} [WEBHOOK-TOOLS] - Error Message: {e}")
 
 banner = f'''{colorama.Fore.RED}
 
