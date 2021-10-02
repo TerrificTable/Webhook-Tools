@@ -1,3 +1,4 @@
+import json
 import colorama
 import requests
 import time
@@ -7,6 +8,7 @@ from requests.api import request
 
 inp = f"[{colorama.Fore.MAGENTA}>{colorama.Style.RESET_ALL}] $ "
 err = f"[{colorama.Fore.RED}-{colorama.Style.RESET_ALL}]"
+inf = f"[{colorama.Fore.YELLOW}i{colorama.Style.RESET_ALL}]"
 out = f"[{colorama.Fore.GREEN}:{colorama.Style.RESET_ALL}]"
 log = f"[{colorama.Fore.CYAN}={colorama.Style.RESET_ALL}]"
 
@@ -37,9 +39,9 @@ def sender():
                 elif str(cu) == "n" and str(av) == "n":
                     response = requests.post(webhook, json = { "content" : message }, params = { 'wait' : True })
             except Exception as e:
-                print(e + ", press [ENTER] to exit")
+                print(e + ", press [ENTER] to return")
                 input()
-                exit()
+                screen()
 
             if response.status_code == 204 or response.status_code == 200:
                 print(f" {out} - Message sent")
@@ -47,13 +49,13 @@ def sender():
                 print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
                 time.sleep(response.json()["retry_after"] / 1000)
             else:
-                print(f" {err} - Error code: {response.status_code}, press [ENTER] to exit")
+                print(f" {err} - Error code: {response.status_code}, press [ENTER] to return")
                 input()
-                exit()
+                screen()
             time.sleep(.5)
-    print(f" {err} - Invalid input, press [ENTER] to exit")
+    print(f" {err} - Invalid input, press [ENTER] to return")
     input()
-    exit()
+    screen()
 
 def spammer():
     os.system('cls; clear')
@@ -67,9 +69,9 @@ def spammer():
             try:
                 response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
             except Exception as e:
-                print(e + ", press [ENTER] to exit")
+                print(e + ", press [ENTER] to return")
                 input()
-                exit()
+                screen()
 
             if response.status_code == 204 or response.status_code == 200:
                 print(f" {out} - Message sent")
@@ -79,12 +81,12 @@ def spammer():
                 time.sleep(response.json()["retry_after"] / 1000)
 
             else:
-                print(f" {err} - Error code: {response.status_code}, press [ENTER] to exit")
+                print(f" {err} - Error code: {response.status_code}, press [ENTER] to return")
                 input()
-                exit()
+                screen()
             time.sleep(.5)
     except:
-        print(f" {log} Press [ENTER] to exit")
+        print(f" {log} Press [ENTER] to return")
 
 def deleter():
     os.system('cls; clear')
@@ -94,17 +96,17 @@ def deleter():
     if webhook != "":
         try:
             requests.delete(webhook.rstrip())
-            print(f' {out} - Webhook has been deleted, press [ENTER] to exit')
+            print(f' {out} - Webhook has been deleted, press [ENTER] to return')
             input()
-            exit()
+            screen()
         except Exception as e:
-            print(f" {err} - Webhook could not be deleted, press [ENTER] to exit")
+            print(f" {err} - Webhook could not be deleted, press [ENTER] to return")
             input()
-            exit()
+            screen()
     else:
-        print(f" {err} - Invalid Input, press [ENTER] to exit")
+        print(f" {err} - Invalid Input, press [ENTER] to return")
         input()
-        exit()
+        screen()
 
 def checker():
     os.system("cls; clear")
@@ -120,6 +122,7 @@ def checker():
                 print(f"{log} [WEBHOOK-TOOLS] - Webhook Works")
         except Exception as e:
             print(f"{err} [WEBHOOK-TOOLS] - Webhook could not be checked\n{err} [WEBHOOK-TOOLS] - Error Message: {e}")
+
 
 banner = f'''{colorama.Fore.RED}
 
@@ -142,27 +145,125 @@ def screen():
     os.system("title [Terrific's Webhook-Tools]")
     print(banner)
     print(f'''
-        [x]==============[x]
-         ║ 1  =  Sender   ║
-         ║ 2  =  Spammer  ║
-         ║ 3  =  Deleter  ║
-         ║ 4  =  Checker  ║
-         ║ X  =  Exit     ║
-        [x]==============[x]''')
+        [x]==================[x]===================[x]
+         ║ 1  =  Sender       ║  4  =  Checker      ║
+         ║ 2  =  Spammer      ║  5  =  SingleUtils  ║
+         ║ 3  =  Deleter      ║  X  =  Exit         ║
+        [x]==================[x]===================[x]''')
     i = input(f" {inp} ")
+    if str(i) == str(1):
+        sender()
+        input()
+        screen()
+    elif str(i) == str(2):
+        spammer()
+        input()
+        screen()
+    elif str(i) == str(3):
+        deleter()
+        input()
+        screen()
+    elif str(i) == str(4):
+        checker()
+        input()
+        screen()
+    elif str(i) == str(5):
+        singleutils()
+        input()
+        screen()
+    elif str(i).lower() == "x":
+        screen()
+    else:
+        print(f" {err} - Invalid Input")
+        input()
+        screen()
 
+
+
+def sendmessage(w, m):
+    r = requests.post(w, json = {"content" : m}, params = {'wait' : True})
+    if r.ok:
+        print(f" {out} Message sent")
+    else:
+        print(f" {err} Message failed to sent")
+
+def chatsession():
+    os.system('cls; clear')
+    os.system("title [Terrific's Webhook-Tools - ChatSession]")
+    print(f'{log} [WEBHOOK-TOOLS] - Chat Session\n\n\n')
+
+    try:
+        print(f" {inf} Press Ctrl + C to exit Chat session\n")
+        webhook = input(f" {inp} Webhook: ")
+        print(f"\n\n {inf} Input Message")
+        while True:
+            message = input(f" {inp} ")
+            sendmessage(webhook, message)
+
+    except KeyboardInterrupt:
+        screen()
+    except:
+        screen()
+
+def changeinfo():
+    os.system('cls; clear')
+    os.system("title [Terrific's Webhook-Tools - ChangeInfo]")
+    print(f'{log} [WEBHOOK-TOOLS] - Change Info\n\n')
+
+    webhook = input(f" {inp} Webhook URL: ")
+
+    print(f"""\n
+    [x]=====================[x]
+     ║ 1  =  Change Name     ║
+     ║ 2  =  Change Avatar   ║
+     ║ 3  =  Return to Menu  ║
+     ║ X  =  Exit            ║
+    [x]=====================[x]
+    """)
+    i = input(f" {inp} ")
+    if str(i) == "1":
+        name = input(f" {inp} Name: ")
+        r = requests.patch(webhook, json={ "name":name })
+        if r.ok:
+            print(f" {out} Succesfully Changed Name")
+        else:
+            print(f" {err} Failed to Change Name")
+    elif str(i) == "2":
+        avatar = input(f" {inp} Image URL: ")
+        r = requests.patch(webhook, json={"avatar_url":avatar})
+        if r.ok:
+            print(f" {out} Succesfully Changed Name")
+        else:
+            print(f" {err} Failed to Change Name")
+    elif str(i) == "3":
+        screen()
+    elif str(i).lower() == "x":
+        exit()
+    else:
+        print(f" {err} Invalid Input, pres [ENTER] to return")
+        input()
+        changeinfo()
+
+def singleutils():
+    os.system("cls")
+    os.system("title [Terrific's Webhook-Tools - SingleUtils]")
+    print(banner + "\n")
+    print(f'''
+    [x]=====================[x]======================[x]
+     ║ 1  =  Chat Session    ║  3  =  Return to Menu  ║
+     ║ 2  =  Change Info     ║  X  =  Exit            ║
+    [x]=====================[x]======================[x]''')
+    i = input(f" {inp} ")
+    if str(i) == str(1):
+        chatsession()
+    elif str(i) == str(2):
+        changeinfo()
+    elif str(i) == str(3):
+        screen()
+    elif str(i).lower() == "x":
+        exit()
+    else:
+        print(f" {err} Invalid Input, pres [ENTER] to return")
+        input()
+        singleutils()
 screen()
-if str(i) == str(1):
-    sender()
-elif str(i) == str(2):
-    spammer()
-elif str(i) == str(3):
-    deleter()
-elif str(i) == str(4):
-    checker()
-elif str(i).lower() == "x":
-    exit()
-else:
-    print(f" {err} - Invalid Input")
-    input()
-    exit()
