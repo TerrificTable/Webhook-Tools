@@ -3,8 +3,8 @@ Just some basic Webhook Tools in Python
 
 # Instalation
 Download the .py file from the [releases](https://github.com/TerrificTable/Webhook-Tools/releases)
-and install the requirements: requests, pypresence, colorama
-or
+and install the requirements: requests, pypresence, colorama    
+or    
 uses these commands:
 ```
 git clone https://github.com/TerrificTable/Webhook-Tools
@@ -14,7 +14,8 @@ python -m pip install pypresense
 python -m pip install colorama
 python webhooktools.py
 ```
-or git clone the repository and then execute the run.bat file which will install all the requirements and run the py file
+or    
+git clone the repository and then execute the run.bat file which will install all the requirements and run the py file
 
 # Features
   - Sender
