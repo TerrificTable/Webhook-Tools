@@ -1,8 +1,13 @@
-from pypresence import Presence
-import colorama
-import requests
-import time
-import os
+try:
+    from pypresence import Presence
+    import colorama
+    import requests
+    import time
+    import os
+except:
+    print(f" [ERROR] You need to install requirements, press [ENTER] to exit")
+    input()
+    exit()
 
 #####################
 ## -Console Utils- ##
@@ -30,6 +35,12 @@ buttonList = [
     }
 ]
 
+try:
+    requests.get("https://github.com/TerrificTable")
+except:
+    print(f" {err} You need to be connected to the internet to use this, press [ENTER] to exit")
+    input()
+    exit()
 
 rpc = Presence("894180358755581953")
 rpc.connect()
@@ -251,7 +262,7 @@ def screen():
         global i
 
         os.system('cls; clear')
-        os.system(f'mode 110, 25')
+        os.system(f'mode 115, 30')
         os.system("title [Terrific's Webhook-Tools]")
         print(banner)
         print(f'''
@@ -334,6 +345,7 @@ def chatsession():
 def changeinfo():
     try:
         os.system('cls; clear')
+        os.system("mode 115, 30")
         os.system("title [Terrific's Webhook-Tools - ChangeInfo]")
         print(f'{log} [WEBHOOK-TOOLS] - Change Info\n\n')
 
@@ -387,6 +399,7 @@ def changeinfo():
 def singleutils():
     try:
         os.system("cls")
+        os.system("mode 115, 30")
         os.system("title [Terrific's Webhook-Tools - SingleUtils]")
         print(banner + "\n")
         print(f'''
