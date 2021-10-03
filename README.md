@@ -1,7 +1,7 @@
 # Webhook-Tools
 Just some basic Webhook Tools in Python
 
-# Instalation
+# Installation
 Download the .py file from the [releases](https://github.com/TerrificTable/Webhook-Tools/releases)
 and install the requirements: requests, pypresence, colorama    
 or    
