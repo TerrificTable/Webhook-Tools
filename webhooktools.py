@@ -19,6 +19,13 @@ inf = f"[{colorama.Fore.YELLOW}i{colorama.Style.RESET_ALL}]"
 out = f"[{colorama.Fore.GREEN}:{colorama.Style.RESET_ALL}]"
 log = f"[{colorama.Fore.CYAN}={colorama.Style.RESET_ALL}]"
 
+try:
+    requests.get("https://github.com/TerrificTable")
+except:
+    print(
+        f" {err} You need to be connected to the internet to use this, press [ENTER] to exit")
+    input()
+    exit()
 
 ###################
 ## -Discord RPC- ##
@@ -26,21 +33,14 @@ log = f"[{colorama.Fore.CYAN}={colorama.Style.RESET_ALL}]"
 
 buttonList = [
     {
-        "label":"GitHub",
-        "url":"https://github.com/TerrificTable"
+        "label": "GitHub",
+        "url": "https://github.com/TerrificTable"
     },
     {
-        "label":"This Programm",
-        "url":"https://github.com/TerrificTable/Webhook-Tools"
+        "label": "This Programm",
+        "url": "https://github.com/TerrificTable/Webhook-Tools"
     }
 ]
-
-try:
-    requests.get("https://github.com/TerrificTable")
-except:
-    print(f" {err} You need to be connected to the internet to use this, press [ENTER] to exit")
-    input()
-    exit()
 
 rpc = Presence("894180358755581953")
 rpc.connect()
@@ -61,7 +61,7 @@ rpc.update(
 
 def checkwebhook(w):
     try:
-        check = requests.get(w, params = { 'wait' : True })
+        check = requests.get(w, params={'wait': True})
         if check.ok or check:
             return True
         else:
@@ -81,10 +81,12 @@ def sender():
         print(f'{log} [WEBHOOK-TOOLS] - Webhook spammer\n')
         webhook = input(f" {inp} Webhook Url: ")
         if checkwebhook(webhook):
-            cu = input(f"\n {inp} Do you want to put a Custom Webhook name inside (it changes the name of the Webhook if it sends a message) [y/n]: ")
+            cu = input(
+                f"\n {inp} Do you want to put a Custom Webhook name inside (it changes the name of the Webhook if it sends a message) [y/n]: ")
             if str(cu) == "y":
                 username = input(f" {inp} Username: ")
-            av  = input(f"\n {inp} Do you want the Webhook to have a Custom avatar [y/n]: ")
+            av = input(
+                f"\n {inp} Do you want the Webhook to have a Custom avatar [y/n]: ")
             if str(av) == "y":
                 avatarurl = input(f" {inp} Avatar-Url (A Image URL): ")
             message = input(f"\n {inp} Message: ")
@@ -95,13 +97,17 @@ def sender():
                 for i in range(int(amt)):
                     try:
                         if str(cu) == "y" and str(av) == "y":
-                            response = requests.post(webhook, json = { "content" : message, "username": username, "avatar_url": avatarurl }, params = { 'wait' : True })
+                            response = requests.post(webhook, json={
+                                                     "content": message, "username": username, "avatar_url": avatarurl}, params={'wait': True})
                         elif str(cu) == "y" and str(av) == "n":
-                            response = requests.post(webhook, json = { "content" : message, "username": username }, params = { 'wait' : True })
+                            response = requests.post(
+                                webhook, json={"content": message, "username": username}, params={'wait': True})
                         elif str(cu) == "n" and str(av) == "y":
-                            response = requests.post(webhook, json = { "content" : message, "avatar_url": avatarurl }, params = { 'wait' : True })
+                            response = requests.post(webhook, json={
+                                                     "content": message, "avatar_url": avatarurl}, params={'wait': True})
                         elif str(cu) == "n" and str(av) == "n":
-                            response = requests.post(webhook, json = { "content" : message }, params = { 'wait' : True })
+                            response = requests.post(
+                                webhook, json={"content": message}, params={'wait': True})
                     except Exception as e:
                         print(e + ", press [ENTER] to return")
                         input()
@@ -110,16 +116,19 @@ def sender():
                     if response.status_code == 204 or response.status_code == 200:
                         print(f" {out} - Message sent")
                     elif response.status_code == 429:
-                        print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
+                        print(
+                            f" {log} - Rate limited ({response.json()['retry_after']}ms)")
                         time.sleep(response.json()["retry_after"] / 1000)
                     else:
-                        print(f" {err} - Error code: {response.status_code}, press [ENTER] to return")
+                        print(
+                            f" {err} - Error code: {response.status_code}, press [ENTER] to return")
                         input()
                         screen()
                     time.sleep(.5)
         else:
             print(f" {err} Invalid Webhook, press [ENTER] to return")
-            input(); sender()
+            input()
+            sender()
         print(f" {err} - Invalid input, press [ENTER] to return")
         input()
         screen()
@@ -145,7 +154,8 @@ def spammer():
             try:
                 while True:
                     try:
-                        response = requests.post(webhook, json = {"content" : message}, params = {'wait' : True})
+                        response = requests.post(
+                            webhook, json={"content": message}, params={'wait': True})
                     except Exception as e:
                         print(e + ", press [ENTER] to return")
                         input()
@@ -155,11 +165,13 @@ def spammer():
                         print(f" {out} - Message sent")
 
                     elif response.status_code == 429:
-                        print(f" {log} - Rate limited ({response.json()['retry_after']}ms)")
+                        print(
+                            f" {log} - Rate limited ({response.json()['retry_after']}ms)")
                         time.sleep(response.json()["retry_after"] / 1000)
 
                     else:
-                        print(f" {err} - Error code: {response.status_code}, press [ENTER] to return")
+                        print(
+                            f" {err} - Error code: {response.status_code}, press [ENTER] to return")
                         input()
                         screen()
                     time.sleep(.5)
@@ -167,7 +179,8 @@ def spammer():
                 print(f" {log} Press [ENTER] to return")
         else:
             print(f" {err} Invalid Webhook, press [ENTER] to return")
-            input(); spammer()
+            input()
+            spammer()
     except KeyboardInterrupt:
         screen()
     except:
@@ -188,11 +201,13 @@ def deleter():
             if webhook != "":
                 try:
                     requests.delete(webhook.rstrip())
-                    print(f' {out} - Webhook has been deleted, press [ENTER] to return')
+                    print(
+                        f' {out} - Webhook has been deleted, press [ENTER] to return')
                     input()
                     screen()
                 except Exception as e:
-                    print(f" {err} - Webhook could not be deleted, press [ENTER] to return")
+                    print(
+                        f" {err} - Webhook could not be deleted, press [ENTER] to return")
                     input()
                     screen()
             else:
@@ -201,13 +216,14 @@ def deleter():
                 screen()
         else:
             print(f" {err} Invalid Webhook, press [ENTER] to return")
-            input(); deleter()
+            input()
+            deleter()
     except KeyboardInterrupt:
         screen()
     except:
         screen()
 
-        
+
 ######################
 ## -Checker Module- ##
 ######################
@@ -222,13 +238,18 @@ def checker():
             r = requests.get(webhook)
             if r.ok == False:
                 print(f"{log} [WEBHOOK-TOOLS] - Webhook Invalid")
-                input(); screen()
+                input()
+                screen()
             elif r.ok == True:
-                print(f"{log} [WEBHOOK-TOOLS] - Webhook Works, press [ENTER] to return")
-                input(); screen()
+                print(
+                    f"{log} [WEBHOOK-TOOLS] - Webhook Works, press [ENTER] to return")
+                input()
+                screen()
         except Exception as e:
-            print(f"{err} [WEBHOOK-TOOLS] - Webhook could not be checked\n{err} [WEBHOOK-TOOLS] - Error Message: {e}")
-            input(); screen()
+            print(
+                f"{err} [WEBHOOK-TOOLS] - Webhook could not be checked\n{err} [WEBHOOK-TOOLS] - Error Message: {e}")
+            input()
+            screen()
     except KeyboardInterrupt as e:
         screen()
     except Exception as e:
@@ -256,6 +277,7 @@ banner = f'''{colorama.Fore.RED}
 ###################
 ## -Screen Loop- ##
 ###################
+
 
 def screen():
     try:
@@ -304,17 +326,21 @@ def screen():
         screen()
 
 
-
 ######################
 ## -Message Sender- ##
 ######################
 
 def sendmessage(w, m):
-    r = requests.post(w, json = {"content" : m}, params = {'wait' : True})
+    r = requests.post(w, json={"content": m}, params={'wait': True})
     if r.ok:
         print(f" {out} Message sent")
     else:
         print(f" {err} Message failed to sent")
+
+
+####################
+## -Chat Session- ##
+####################
 
 def chatsession():
     os.system('cls; clear')
@@ -331,7 +357,8 @@ def chatsession():
                 sendmessage(webhook, message)
         else:
             print(f" {err} Invalid Webhook, press [ENTER] to return")
-            input(); chatsession()
+            input()
+            chatsession()
     except KeyboardInterrupt:
         screen()
     except:
@@ -361,33 +388,42 @@ def changeinfo():
             [x]=====================[x]
             """)
             i = input(f" {inp} ")
+
             if str(i) == "1":
                 name = input(f" {inp} Name: ")
-                r = requests.patch(webhook, json={ "name":name })
+                r = requests.patch(webhook, json={"name": name})
                 if r.ok:
                     print(f" {out} Succesfully Changed Name")
                 else:
                     print(f" {err} Failed to Change Name")
+
             elif str(i) == "2":
                 avatar = input(f" {inp} Image URL: ")
-                r = requests.patch(webhook, json={"avatar_url":avatar})
+                r = requests.patch(webhook, json={"avatar_url": avatar})
                 if r.ok:
                     print(f" {out} Succesfully Changed Name")
                 else:
                     print(f" {err} Failed to Change Name")
+
             elif str(i) == "3":
                 screen()
+
             elif str(i).lower() == "x":
                 exit()
+
             else:
                 print(f" {err} Invalid Input, pres [ENTER] to return")
                 input()
                 changeinfo()
+
         else:
             print(f" {err} Invalid Webhook, press [ENTER] to return")
-            input(); changeinfo()
+            input()
+            changeinfo()
+
     except KeyboardInterrupt:
         screen()
+
     except:
         screen()
 
@@ -424,4 +460,6 @@ def singleutils():
         screen()
     except:
         screen()
+
+
 screen()
